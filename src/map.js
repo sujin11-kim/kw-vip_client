@@ -1,6 +1,8 @@
+import axios from "axios";
+import { useState, useEffect } from 'react';
 import geojson from './HangJeongDong_ver20220701';
-import React, { useEffect} from "react";
 const { kakao } = window;
+
 
 const Map = () => {
   useEffect(() => {
@@ -8,7 +10,11 @@ const Map = () => {
     let data = geojson.features;
     let coordinates = []; //좌표 저장 배열
     let name = ''; //행정구 이름
-    var areaResult = ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff']
+    var areaResult = [];
+
+    const header = {
+      "Content-Type": `application/json`,
+    };
 
     let polygons = [];
 
@@ -73,24 +79,37 @@ const Map = () => {
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
-      const content =
-      '<div style="padding:10px;"><p><b>' +
-      name +
-      '</b></p><p>1 : ' +
-      areaResult[1] +
-      '</p><p>2 : ' +
-      areaResult[2] +
-      '</p><p>3 : ' +
-      areaResult[3] +
-      '</p><p>4 : ' +
-      areaResult[4] +
-      '</p><p>5 : ' +
-      areaResult[5] +
-      '</div>';
+      var data = {area: name}
+      var area_json = {data : data}
 
-      infowindow.setContent(content);
-      infowindow.setPosition(mouseEvent.latLng);
-      infowindow.setMap(map);
+      const api = axios.create({
+        baseURL: "http://localhost:5000"
+      })
+      api.post('/info',{area : name})
+      .then(function(response){
+        areaResult=response.data['result_list'];
+        const content =
+        '<div style="padding:10px;"><p><b>' +
+        name +
+        '</b></p><p>1 : ' +
+        areaResult[0] +
+        '</p><p>2 : ' +
+        areaResult[1] +
+        '</p><p>3 : ' +
+        areaResult[2] +
+        '</p><p>4 : ' +
+        areaResult[3] +
+        '</p><p>5 : ' +
+        areaResult[4] +
+        '</div>';
+        infowindow.setContent(content);
+        infowindow.setPosition(mouseEvent.latLng);
+        infowindow.setMap(map);
+     })
+      .catch(function(error){
+        console.log(error);
+      });
+    
     });
 
   };
