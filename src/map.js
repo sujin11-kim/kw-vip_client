@@ -82,10 +82,13 @@ const Map = () => {
       var data = {area: name}
       var area_json = {data : data}
 
+      axios.defaults.withCredentials = true;
+
       const api = axios.create({
-        baseURL: "http://localhost:5000"
+        baseURL: "http://localhost:5000",
+        withCredentials: true
       })
-      api.post('/info',{area : name})
+      api.post('/info',{area : name},{withCredentials: true})
       .then(function(response){
         areaResult=response.data['result_list'];
         const content =
@@ -97,10 +100,6 @@ const Map = () => {
         areaResult[1] +
         '</p><p>3 : ' +
         areaResult[2] +
-        '</p><p>4 : ' +
-        areaResult[3] +
-        '</p><p>5 : ' +
-        areaResult[4] +
         '</div>';
         infowindow.setContent(content);
         infowindow.setPosition(mouseEvent.latLng);
