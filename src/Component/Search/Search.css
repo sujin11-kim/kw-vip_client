@@ -1,0 +1,99 @@
+#inputbox
+{
+    border:whitesmoke;
+    background-color:whitesmoke;
+    width:500px;
+    height:45px;
+    color:black;
+    margin-bottom:10px;
+}
+
+#search_button
+{
+    margin:10px;
+    border:whitesmoke;
+    background-color:whitesmoke;
+    width: 70px;;
+    height:45px;
+    color:black;
+}
+
+#content
+{
+    display:block;
+    position: relative;
+    width:600px;
+}
+
+
+#btn_acitve{
+    width:100px;
+    height: 50px;
+    background-color:black;
+    border-radius: 10px;
+    border-color:black;
+    color: white;
+    padding:15px 15px 15px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size:15px;
+    margin: 4px;
+}
+.button{
+    position: relative;
+    z-index: 2;
+    float:left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#btn{
+    width:100px;
+    height: 50px;
+    background-color:whitesmoke;
+    border-radius: 10px;
+    border-color:whitesmoke;
+    color: black;
+    padding:15px 15px 15px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size:15px;
+    margin: 4px;
+    &&.active{
+
+    }
+}
+
+
+.component_checkbox{
+    position: relative;
+    width:630px;
+    height:150px;
+    background-color: white;
+}
+
+.price{
+    position: relative;
+    font-size: 30px;
+}
+
+.search{
+    position:relative;
+    float:left;
+    width:1000px;
+    height:50px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.component_price{
+    float:left;
+    position: relative;
+    width:600px;
+    height:650px;
+    background-color:white;
+}
+
+#data{
+    position:relative;
+}
