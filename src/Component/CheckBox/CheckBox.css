@@ -1,0 +1,36 @@
+
+
+.window{
+    position: relative;
+    z-index: 1;
+    display:block;
+    margin-top: 10px;
+    background-color:white;
+    width:630px;
+    height: 1000px;
+}
+
+
+.title{
+    margin:4px 4px 4px 4px;
+    font-size:35px;
+    font-family: 'SEBANG_Gothic_Bold';
+
+}
+
+
+
+
+@font-face {
+    font-family: 'Humanbumsuk';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Humanbumsuk.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
