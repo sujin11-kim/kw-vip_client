@@ -20,7 +20,7 @@ const Map = () => {
 
     const mapContainer = document.getElementById('pollution-map'); // 지도를 표시할 div
     const mapOption = {
-      center: new kakao.maps.LatLng(37.553836, 126.969652), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(37.559819, 126.8600), // 지도의 중심좌표
       level: 8, // 지도의 확대 레벨
     };
     const map = new kakao.maps.Map(mapContainer, mapOption);
