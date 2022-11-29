@@ -1,17 +1,19 @@
 #inputbox
 {
-    border:whitesmoke;
+    border-radius: 10px;
+    border-color:whitesmoke;
     background-color:whitesmoke;
     width:500px;
     height:45px;
     color:black;
-    margin-bottom:10px;
+    margin:10px;
 }
 
 #search_button
 {
     margin:10px;
-    border:whitesmoke;
+    border-radius: 10px;
+    border-color:whitesmoke;
     background-color:whitesmoke;
     width: 70px;;
     height:45px;
@@ -29,7 +31,7 @@
 #btn_acitve{
     width:100px;
     height: 50px;
-    background-color:black;
+    background-color:#212121;
     border-radius: 10px;
     border-color:black;
     color: white;
@@ -59,9 +61,7 @@
     display: inline-block;
     font-size:15px;
     margin: 4px;
-    &&.active{
 
-    }
 }
 
 
@@ -75,6 +75,8 @@
 .price{
     position: relative;
     font-size: 30px;
+    margin:20px;
+    font-family: 'GangwonEduPowerExtraBoldA';
 }
 
 .search{
@@ -90,10 +92,57 @@
     float:left;
     position: relative;
     width:600px;
-    height:650px;
+    height:500px;
+    margin:10px;
     background-color:white;
 }
 
 #data{
     position:relative;
 }
+
+
+
+#window{
+    position: relative;
+    z-index: 1;
+    display:block;
+    margin-top: 10px;
+    background-color:white;
+    width:630px;
+    height: 1000px;
+}
+
+
+.title{
+    margin:4px 4px 4px 4px;
+    font-size:35px;
+    font-family: 'SEBANG_Gothic_Bold';
+
+}
+
+#local_check{
+    font-size: 30px;
+    margin:20px;
+    padding: 10px;
+    background-color:whitesmoke;
+    font-family: 'GangwonEduPowerExtraBoldA';
+}
+
+
+
+
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GangwonEduPowerExtraBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
