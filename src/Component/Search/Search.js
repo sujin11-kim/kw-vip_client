@@ -1,169 +1,225 @@
-import React, {useState,useEffect} from "react";
-import './Search.css';
-import Map from "../../map";
-const SearchBar=()=>{
-    const [search,setSearch]=useState(""); 
-    const [data_print,setData]=useState("");
-    const [business,setBusiness]=useState("");
-    const [floor,setFloor]=useState("");
-    const [paint,setPaint]=useState("");
-    
-    var data_value="";
+import React from "react";
+import PropTypes from "prop-types";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import Paper from "@material-ui/core/Paper";
+import ClearIcon from "@material-ui/icons/Clear";
+import SearchIcon from "@material-ui/icons/Search";
+import withStyles from "@material-ui/core/styles/withStyles";
+import classNames from "classnames";
 
-    const onBusiness=(e)=>{
-        const{value}=e.target;
-        console.log(value);
-        if(business!==e.target.value)
-        {
-            setBusiness(e.target.value);
-        }
-        else{
-            setBusiness("")
-        }        
-    }
-    const onFloor=(e)=>{
-        const{value}=e.target;
-        console.log(value);
-        if(floor!==e.target.value)
-        {
-            setFloor(e.target.value);
-        }
-        else{
-            setFloor("")
-        }        
-    }
-    const onChangeSearch=event=>{
-        event.preventDefault();
-        setSearch(event.target.value);
-    }
-    const onClick=async()=>{
-        data_value=Content(search);
-        var data_list=data_value.map((local) => 
-        <Print key={local.id} ranking={local.ranking} local_name={local.local_name} price={local.price}></Print>);
-        
-        setData(data_list);
-        setPaint(data_value);
-    }
-
-    
-    return(
-        <>
-        <Map local_to_paint={paint}></Map>
-        <div id='window'>
-            <div className='title'>상권분석</div>
-            <div className='component_checkbox'>
-                <div className='button'>
-                    <button id={"btn"+(floor==="1F" ?"_acitve" :"")} value="1F" onClick={onFloor}>1F</button>
-                    <button id={"btn"+(floor==="2F" ?"_acitve" :"")} value="2F" onClick={onFloor}>2F</button>
-                </div>
-                <div className='button'>
-                    <button id={"btn"+(business==="음식점" ?"_acitve" :"")} value="음식점" onClick={onBusiness}>음식점</button>
-                    <button id={"btn"+(business==="슈퍼마켓" ?"_acitve" :"")} value="슈퍼마켓" onClick={onBusiness}>슈퍼마켓</button>
-                    <button id={"btn"+(business==="학원" ?"_acitve" :"")} value="학원" onClick={onBusiness}>학원</button>
-                    <button id={"btn"+(business==="카페" ?"_acitve" :"")} value="카페" onClick={onBusiness}>카페</button>
-                </div>
-                <div className='search'>
-                    <input id="inputbox"
-                    type="search"
-                    value={search}
-                    placeholder="   원하시는 평수를 입력하세요..."
-                    onChange={onChangeSearch}
-                    />
-                    <button id="search_button" onClick={onClick}>검색</button>
-                </div>
-                <div className="component_price">
-                    <hr></hr>
-                    <div className='price'>지역 별 순위....</div>
-                    <div id='data'>{data_print}</div>
-                </div>
-        </div>
-        </div>
-
-        </>
-    )
-}
-export default SearchBar;
-
-const data=[//test값
-    {
-        area:25,
-        value:[
-            {id:1,ranking:1,local_name:"강남구 논현1동",price:'500'},
-            {id:2,ranking:2,local_name:"은평구 응암1동",price:'300'},
-            {id:3,ranking:3,local_name:"서대문구 홍제1동",price:'200'},
-            {id:4,ranking:4,local_name:"중구 명동",price:'500'},
-            {id:5,ranking:5,local_name:"용산구 남영동",price:'300'}
-        ]
-       
+const styles = (theme) => ({
+  root: {
+    height: theme.spacing(6),
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  iconButton: {
+    color: theme.palette.action.active,
+    transform: "scale(1, 1)",
+    transition: theme.transitions.create(["transform", "color"], {
+      duration: theme.transitions.duration.shorter,
+      easing: theme.transitions.easing.easeInOut,
+    }),
+  },
+  iconButtonHidden: {
+    transform: "scale(0, 0)",
+    "& > $icon": {
+      opacity: 0,
     },
+  },
+  searchIconButton: {
+    marginRight: theme.spacing(-6),
+  },
+  icon: {
+    transition: theme.transitions.create(["opacity"], {
+      duration: theme.transitions.duration.shorter,
+      easing: theme.transitions.easing.easeInOut,
+    }),
+  },
+  input: {
+    width: "100%",
+  },
+  searchContainer: {
+    margin: "auto 16px",
+    width: `calc(100% - ${theme.spacing(6 + 4)}px)`, // 6 button + 4 margin
+  },
+});
+
+/**
+ * Material design search bar
+ * @see [Search patterns](https://material.io/archive/guidelines/patterns/search.html)
+ */
+const SearchBar = React.forwardRef(
+  (
     {
-        area:30,
-        value:[
-            {id:1,ranking:1,local_name:"중구 명동",price:'500'},
-            {id:2,ranking:2,local_name:"용산구 남영동",price:'300'},
-            {id:3,ranking:3,local_name:"종로구 무악동",price:'200'},
-            {id:4,ranking:4,local_name:"성북구 안암동",price:'500'},
-            {id:5,ranking:5,local_name:"노원구 상계1동",price:'300'}
-        ]
-       
+      cancelOnEscape,
+      className,
+      classes,
+      closeIcon,
+      disabled,
+      onCancelSearch,
+      onRequestSearch,
+      searchIcon,
+      style,
+      ...inputProps
     },
-    {
-        area:15,
-        value:[
-            {id:1,ranking:'1',local_name:"성북구 안암동",price:'500'},
-            {id:2,ranking:'2',local_name:"노원구 상계1동",price:'300'},
-            {id:3,ranking:'3',local_name:"중랑구 상봉1동",price:'200'},
-            {id:4,ranking:'4',local_name:"강남구 논현1동",price:'500'},
-            {id:5,ranking:'5',local_name:"은평구 응암1동",price:'300'}
-        ]
-       
-    }
+    ref
+  ) => {
+    const inputRef = React.useRef();
+    const [value, setValue] = React.useState(inputProps.value);
 
-]
+    React.useEffect(() => {
+      setValue(inputProps.value);
+    }, [inputProps.value]);
 
-function Content(search){
-    var data_value="";
-    for(var i in data){
-        if(data[i]['area']==search)
-        {
-            data_value=data[i]['value'];
-            break;
+    const handleFocus = React.useCallback(
+      (e) => {
+        if (inputProps.onFocus) {
+          inputProps.onFocus(e);
         }
-    }
+      },
+      [inputProps.onFocus]
+    );
 
-    if(data_value===""){return("Not found data")}
-    
-    return(
-       data_value
-
-    )
-
-}
-
-function Print({ranking,local_name,price}){
-    let local_price=ranking+"위 "+local_name+" "+price
-    const [showPopup,setShowPopup]=useState("");
-    const onGetdata=(e)=>{
-        const {value}=e.target;
-        console.log(typeof(value));
-        if(showPopup!=e.target.value)
-        {
-            
-            setShowPopup(e.target.value);
+    const handleBlur = React.useCallback(
+      (e) => {
+        setValue((v) => v.trim());
+        if (inputProps.onBlur) {
+          inputProps.onBlur(e);
         }
-        else{
-            setShowPopup("");
-        }
-        console.log(showPopup);
-        // console.log(typeof(showPopup));
-    }
-   return(
-    <>
-        <div id="local_check" onClick={onGetdata} value='false'>{local_price}</div>
-        {showPopup?(
-            <div className="sub_window">hi</div>
-        ):null}
-    </>
-   )
-}
+      },
+      [inputProps.onBlur]
+    );
 
+    const handleInput = React.useCallback(
+      (e) => {
+        setValue(e.target.value);
+        if (inputProps.onChange) {
+          inputProps.onChange(e.target.value);
+        }
+      },
+      [inputProps.onChange]
+    );
+
+    const handleCancel = React.useCallback(() => {
+      setValue("");
+      if (onCancelSearch) {
+        onCancelSearch();
+      }
+    }, [onCancelSearch]);
+
+    const handleRequestSearch = React.useCallback(() => {
+      if (onRequestSearch) {
+        onRequestSearch(value);
+      }
+    }, [onRequestSearch, value]);
+
+    const handleKeyUp = React.useCallback(
+      (e) => {
+        if (e.charCode === 13 || e.key === "Enter") {
+          handleRequestSearch();
+        } else if (
+          cancelOnEscape &&
+          (e.charCode === 27 || e.key === "Escape")
+        ) {
+          handleCancel();
+        }
+        if (inputProps.onKeyUp) {
+          inputProps.onKeyUp(e);
+        }
+      },
+      [handleRequestSearch, cancelOnEscape, handleCancel, inputProps.onKeyUp]
+    );
+
+    React.useImperativeHandle(ref, () => ({
+      focus: () => {
+        inputRef.current.focus();
+      },
+      blur: () => {
+        inputRef.current.blur();
+      },
+    }));
+
+    return (
+      <Paper className={classNames(classes.root, className)} style={style}>
+        <div className={classes.searchContainer}>
+          <Input
+            {...inputProps}
+            inputRef={inputRef}
+            onBlur={handleBlur}
+            value={value}
+            onChange={handleInput}
+            onKeyUp={handleKeyUp}
+            onFocus={handleFocus}
+            fullWidth
+            className={classes.input}
+            disableUnderline
+            disabled={disabled}
+          />
+        </div>
+        <IconButton
+          onClick={handleRequestSearch}
+          className={classNames(classes.iconButton, classes.searchIconButton, {
+            [classes.iconButtonHidden]: value !== "",
+          })}
+          disabled={disabled}
+        >
+          {React.cloneElement(searchIcon, {
+            classes: { root: classes.icon },
+          })}
+        </IconButton>
+        <IconButton
+          onClick={handleCancel}
+          className={classNames(classes.iconButton, {
+            [classes.iconButtonHidden]: value === "",
+          })}
+          disabled={disabled}
+        >
+          {React.cloneElement(closeIcon, {
+            classes: { root: classes.icon },
+          })}
+        </IconButton>
+      </Paper>
+    );
+  }
+);
+
+SearchBar.defaultProps = {
+  className: "",
+  closeIcon: <ClearIcon />,
+  disabled: false,
+  placeholder: "Search",
+  searchIcon: <SearchIcon />,
+  style: null,
+  value: "",
+};
+
+SearchBar.propTypes = {
+  /** Whether to clear search on escape */
+  cancelOnEscape: PropTypes.bool,
+  /** Override or extend the styles applied to the component. */
+  classes: PropTypes.object.isRequired,
+  /** Custom top-level class */
+  className: PropTypes.string,
+  /** Override the close icon. */
+  closeIcon: PropTypes.node,
+  /** Disables text field. */
+  disabled: PropTypes.bool,
+  /** Fired when the search is cancelled. */
+  onCancelSearch: PropTypes.func,
+  /** Fired when the text value changes. */
+  onChange: PropTypes.func,
+  /** Fired when the search icon is clicked. */
+  onRequestSearch: PropTypes.func,
+  /** Sets placeholder text for the embedded text field. */
+  placeholder: PropTypes.string,
+  /** Override the search icon. */
+  searchIcon: PropTypes.node,
+  /** Override the inline-styles of the root element. */
+  style: PropTypes.object,
+  /** The value of the text field. */
+  value: PropTypes.string,
+};
+
+export default withStyles(styles)(SearchBar);
